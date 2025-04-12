@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Loader2, Utensils, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -50,7 +49,7 @@ const RecipeGenerator = () => {
         toast({
           variant: "default",
           title: "Using sample recipes",
-          description: "Configure an API key for real recipe data.",
+          description: "No API key has been configured by admin. Using sample data instead.",
         });
       }
     } catch (err) {

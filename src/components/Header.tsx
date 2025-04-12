@@ -1,6 +1,7 @@
 
 import { useState } from 'react';
-import { Menu, X, ChefHat } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Menu, X, ChefHat, Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Header = () => {
@@ -11,18 +12,21 @@ const Header = () => {
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-2">
           <ChefHat className="h-6 w-6 text-recipe-primary" />
-          <span className="text-xl font-display font-semibold">NutriSaver</span>
+          <Link to="/" className="text-xl font-display font-semibold">NutriSaver</Link>
         </div>
         
         <nav className="hidden md:flex items-center gap-6 text-sm">
-          <a href="#" className="font-medium transition-colors hover:text-recipe-primary">Home</a>
-          <a href="#" className="font-medium transition-colors hover:text-recipe-primary">My Recipes</a>
-          <a href="#" className="font-medium transition-colors hover:text-recipe-primary">Shopping List</a>
-          <a href="#" className="font-medium transition-colors hover:text-recipe-primary">About</a>
+          <Link to="/" className="font-medium transition-colors hover:text-recipe-primary">Home</Link>
+          <Link to="/admin" className="font-medium transition-colors hover:text-recipe-primary flex items-center gap-1">
+            <Lock className="h-3 w-3" />
+            Admin
+          </Link>
         </nav>
         
         <div className="flex items-center gap-4">
-          <Button variant="default" className="hidden md:flex">Generate Recipe</Button>
+          <Button variant="default" className="hidden md:flex">
+            <Link to="/">Generate Recipe</Link>
+          </Button>
           
           <Button
             variant="ghost"
@@ -38,11 +42,14 @@ const Header = () => {
       {isMenuOpen && (
         <div className="container md:hidden">
           <nav className="flex flex-col py-4 gap-2">
-            <a href="#" className="py-2 font-medium transition-colors hover:text-recipe-primary">Home</a>
-            <a href="#" className="py-2 font-medium transition-colors hover:text-recipe-primary">My Recipes</a>
-            <a href="#" className="py-2 font-medium transition-colors hover:text-recipe-primary">Shopping List</a>
-            <a href="#" className="py-2 font-medium transition-colors hover:text-recipe-primary">About</a>
-            <Button variant="default" className="mt-2">Generate Recipe</Button>
+            <Link to="/" className="py-2 font-medium transition-colors hover:text-recipe-primary">Home</Link>
+            <Link to="/admin" className="py-2 font-medium transition-colors hover:text-recipe-primary flex items-center gap-1">
+              <Lock className="h-3 w-3" />
+              Admin
+            </Link>
+            <Button variant="default" className="mt-2">
+              <Link to="/">Generate Recipe</Link>
+            </Button>
           </nav>
         </div>
       )}
