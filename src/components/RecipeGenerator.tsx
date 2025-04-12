@@ -1,39 +1,73 @@
 
 import { useState } from 'react';
-import { Loader2, Utensils } from 'lucide-react';
+import { Loader2, Utensils, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import UserPreferencesForm from './UserPreferencesForm';
 import RecipeCard from './RecipeCard';
 import RecipeDetail from './RecipeDetail';
+import ApiKeyConfig from './ApiKeyConfig';
 import { Recipe, UserPreferences } from '@/types/recipe';
-import { sampleRecipes } from '@/data/sampleRecipes';
+import { fetchRecipes } from '@/services/recipeService';
+import { useApiKey } from '@/context/ApiKeyContext';
+import { sampleRecipes } from '@/data/sampleRecipes'; // Keeping as fallback
 
 const RecipeGenerator = () => {
   const { toast } = useToast();
+  const { apiKey, isKeySet } = useApiKey();
   const [isGenerating, setIsGenerating] = useState(false);
   const [showForm, setShowForm] = useState(true);
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [showRecipeDetail, setShowRecipeDetail] = useState(false);
   const [preferences, setPreferences] = useState<UserPreferences | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmitPreferences = (formData: UserPreferences) => {
+  const handleSubmitPreferences = async (formData: UserPreferences) => {
     setPreferences(formData);
     setIsGenerating(true);
     setShowForm(false);
+    setError(null);
 
-    // In a real app, this would make an API call to generate recipes
-    // For now, we'll simulate an API call with a timeout
-    setTimeout(() => {
+    try {
+      let fetchedRecipes: Recipe[];
+      
+      if (isKeySet) {
+        // Try to fetch recipes from API if key is set
+        fetchedRecipes = await fetchRecipes(formData, apiKey);
+        setRecipes(fetchedRecipes);
+        
+        toast({
+          title: "Recipes generated!",
+          description: `Found ${fetchedRecipes.length} recipes that match your preferences.`,
+        });
+      } else {
+        // Use sample data if no API key
+        console.log("No API key set, using sample data");
+        setError("No API key configured. Using sample data instead.");
+        setRecipes(sampleRecipes);
+        
+        toast({
+          variant: "default",
+          title: "Using sample recipes",
+          description: "Configure an API key for real recipe data.",
+        });
+      }
+    } catch (err) {
+      console.error("Failed to fetch recipes:", err);
+      setError("Failed to fetch recipes. Using sample data instead.");
+      
+      // Fallback to sample recipes if API fails
       setRecipes(sampleRecipes);
-      setIsGenerating(false);
       
       toast({
-        title: "Recipes generated!",
-        description: `Found ${sampleRecipes.length} recipes that match your preferences.`,
+        variant: "destructive",
+        title: "API Error",
+        description: "Could not fetch recipes. Using sample data instead.",
       });
-    }, 2000);
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   const handleRecipeClick = (recipe: Recipe) => {
@@ -49,6 +83,7 @@ const RecipeGenerator = () => {
     setShowForm(true);
     setRecipes([]);
     setPreferences(null);
+    setError(null);
   };
 
   return (
@@ -63,6 +98,9 @@ const RecipeGenerator = () => {
               Get personalized, budget-friendly recipes based on your location, nutritional needs, and local prices.
             </p>
           </div>
+          
+          <ApiKeyConfig />
+          
           <UserPreferencesForm onSubmit={handleSubmitPreferences} />
         </div>
       ) : (
@@ -74,6 +112,11 @@ const RecipeGenerator = () => {
                 <p className="text-muted-foreground">
                   {preferences.location && `For ${preferences.location} • `}
                   {preferences.calorieTarget} kcal • ${preferences.budget.toFixed(2)} budget
+                </p>
+              )}
+              {error && (
+                <p className="text-sm text-destructive mt-1 flex items-center gap-1">
+                  <AlertCircle className="h-3 w-3" /> {error}
                 </p>
               )}
             </div>
