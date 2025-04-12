@@ -55,6 +55,11 @@ export const fetchRecipes = async (preferences: UserPreferences, apiKey: string)
     const data = await response.json();
     console.log("API response:", data);
     
+    if (!data.results || data.results.length === 0) {
+      console.log("No recipes found in API response");
+      return [];
+    }
+    
     // Transform the API response to match our Recipe type
     return transformApiResponseToRecipes(data.results, preferences.location);
   } catch (error) {
@@ -71,15 +76,15 @@ const transformApiResponseToRecipes = (
   location: string
 ): Recipe[] => {
   return apiResults.map((result) => {
-    // Extract ingredient information
-    const ingredients: Ingredient[] = result.extendedIngredients.map(
+    // Extract ingredient information with safety checks
+    const ingredients: Ingredient[] = result.extendedIngredients?.map(
       (ingredient: any) => ({
-        name: ingredient.name,
-        amount: ingredient.amount.toString(),
+        name: ingredient.name || "Unknown ingredient",
+        amount: ingredient.amount?.toString() || "0",
         price: ingredient.estimatedCost?.value / 100 || 0.99, // Convert cents to dollars or use placeholder
-        unit: ingredient.unit,
+        unit: ingredient.unit || "",
       })
-    );
+    ) || [];
 
     // Calculate total price
     const totalPrice = ingredients.reduce(
@@ -87,7 +92,7 @@ const transformApiResponseToRecipes = (
       0
     );
 
-    // Extract nutrition information
+    // Extract nutrition information safely
     const nutrition = result.nutrition?.nutrients || [];
     const nutritionInfo: NutritionInfo = {
       calories: findNutrient(nutrition, "Calories") || 0,
@@ -98,7 +103,7 @@ const transformApiResponseToRecipes = (
       sugar: findNutrient(nutrition, "Sugar") || 0,
     };
 
-    // Extract dietary tags
+    // Extract dietary tags safely
     const tags = [
       ...(result.vegetarian ? ["vegetarian"] : []),
       ...(result.vegan ? ["vegan"] : []),
@@ -108,21 +113,25 @@ const transformApiResponseToRecipes = (
       ...(result.cheap ? ["budget-friendly"] : []),
     ];
 
+    // Handle potentially missing instructions safely
+    const instructionsSteps = result.analyzedInstructions?.[0]?.steps || [];
+    const instructions = instructionsSteps.length > 0
+      ? instructionsSteps.map((step: any) => step.step || "")
+      : ["No instructions available."];
+
     return {
-      id: result.id.toString(),
-      title: result.title,
-      description: result.summary.split(".")[0] + ".", // First sentence of summary
-      imageUrl: result.image,
+      id: result.id?.toString() || `temp-${Math.random().toString(36).substr(2, 9)}`,
+      title: result.title || "Unnamed Recipe",
+      description: (result.summary?.split(".")?.[0] + ".") || "No description available.",
+      imageUrl: result.image || "placeholder.svg",
       ingredients,
-      instructions: result.analyzedInstructions[0]?.steps.map(
-        (step: any) => step.step
-      ) || ["No instructions available."],
+      instructions,
       prepTime: result.preparationMinutes > 0 ? result.preparationMinutes : 15,
       cookTime: result.cookingMinutes > 0 ? result.cookingMinutes : 25,
-      servings: result.servings,
+      servings: result.servings || 4,
       nutritionInfo,
       totalPrice,
-      pricePerServing: totalPrice / result.servings,
+      pricePerServing: result.servings > 0 ? totalPrice / result.servings : totalPrice / 4,
       tags,
     };
   });
@@ -132,7 +141,7 @@ const transformApiResponseToRecipes = (
  * Helper function to find a specific nutrient value from nutrition data
  */
 const findNutrient = (nutrients: any[], name: string): number => {
-  const nutrient = nutrients.find((n: any) => n.name === name);
+  const nutrient = nutrients?.find((n: any) => n.name === name);
   return nutrient ? nutrient.amount : 0;
 };
 
