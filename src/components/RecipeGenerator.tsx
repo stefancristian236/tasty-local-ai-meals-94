@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import { Loader2, Utensils, AlertCircle } from 'lucide-react';
+
+import { useState, useEffect } from 'react';
+import { Loader2, Utensils, AlertCircle, BookmarkPlus, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import UserPreferencesForm from './UserPreferencesForm';
@@ -21,6 +22,14 @@ const RecipeGenerator = () => {
   const [showRecipeDetail, setShowRecipeDetail] = useState(false);
   const [preferences, setPreferences] = useState<UserPreferences | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [savedRecipes, setSavedRecipes] = useState<Recipe[]>(() => {
+    const saved = localStorage.getItem('savedRecipes');
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('savedRecipes', JSON.stringify(savedRecipes));
+  }, [savedRecipes]);
 
   const handleSubmitPreferences = async (formData: UserPreferences) => {
     setPreferences(formData);
@@ -37,32 +46,32 @@ const RecipeGenerator = () => {
         setRecipes(fetchedRecipes);
         
         toast({
-          title: "Recipes generated!",
-          description: `Found ${fetchedRecipes.length} recipes that match your preferences.`,
+          title: "Rețete generate!",
+          description: `S-au găsit ${fetchedRecipes.length} rețete care se potrivesc preferințelor tale.`,
         });
       } else {
         // Use sample data if no API key
         console.log("No API key set, using sample data");
-        setError("No API key configured. Using sample data instead.");
+        setError("Nicio cheie API configurată. Se folosesc date exemplu în loc.");
         setRecipes(sampleRecipes);
         
         toast({
           variant: "default",
-          title: "Using sample recipes",
-          description: "No API key has been configured by admin. Using sample data instead.",
+          title: "Se folosesc rețete exemplu",
+          description: "Nicio cheie API nu a fost configurată de admin. Se folosesc date exemplu în loc.",
         });
       }
     } catch (err) {
       console.error("Failed to fetch recipes:", err);
-      setError("Failed to fetch recipes. Using sample data instead.");
+      setError("Nu s-au putut prelua rețetele. Se folosesc date exemplu în loc.");
       
       // Fallback to sample recipes if API fails
       setRecipes(sampleRecipes);
       
       toast({
         variant: "destructive",
-        title: "API Error",
-        description: "Could not fetch recipes. Using sample data instead.",
+        title: "Eroare API",
+        description: "Nu s-au putut prelua rețetele. Se folosesc date exemplu în loc.",
       });
     } finally {
       setIsGenerating(false);
@@ -85,16 +94,36 @@ const RecipeGenerator = () => {
     setError(null);
   };
 
+  const isRecipeSaved = (recipe: Recipe) => {
+    return savedRecipes.some(saved => saved.id === recipe.id);
+  };
+
+  const handleSaveRecipe = (recipe: Recipe) => {
+    if (isRecipeSaved(recipe)) {
+      setSavedRecipes(savedRecipes.filter(saved => saved.id !== recipe.id));
+      toast({
+        title: "Rețetă eliminată",
+        description: "Rețeta a fost eliminată din colecția ta."
+      });
+    } else {
+      setSavedRecipes([...savedRecipes, recipe]);
+      toast({
+        title: "Rețetă salvată",
+        description: "Rețeta a fost adăugată în colecția ta."
+      });
+    }
+  };
+
   return (
     <div className="container py-6 max-w-6xl">
       {showForm ? (
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-8">
             <h1 className="text-3xl md:text-4xl font-display font-bold mb-3">
-              Smart Recipe Generator
+              Generator de rețete inteligent
             </h1>
             <p className="text-muted-foreground text-lg">
-              Get personalized, budget-friendly recipes based on your location, nutritional needs, and local prices.
+              Obțineți rețete personalizate, la un preț accesibil, bazate pe locația dvs., nevoile nutriționale și prețurile locale.
             </p>
           </div>
           
@@ -106,11 +135,11 @@ const RecipeGenerator = () => {
         <div className="space-y-8">
           <div className="flex flex-wrap justify-between items-center gap-4">
             <div>
-              <h2 className="text-2xl font-display font-semibold">Your Custom Recipes</h2>
+              <h2 className="text-2xl font-display font-semibold">Rețetele tale personalizate</h2>
               {preferences && (
                 <p className="text-muted-foreground">
-                  {preferences.location && `For ${preferences.location} • `}
-                  {preferences.calorieTarget} kcal • ${preferences.budget.toFixed(2)} budget
+                  {preferences.location && `Pentru ${preferences.location} • `}
+                  {preferences.calorieTarget} kcal • ${preferences.budget.toFixed(2)} buget
                 </p>
               )}
               {error && (
@@ -119,36 +148,52 @@ const RecipeGenerator = () => {
                 </p>
               )}
             </div>
-            <Button variant="outline" onClick={handleReset}>Change Preferences</Button>
+            <Button variant="outline" onClick={handleReset}>Schimbă preferințele</Button>
           </div>
 
           {isGenerating ? (
             <div className="flex flex-col items-center justify-center py-20">
               <Loader2 className="h-12 w-12 animate-spin text-recipe-primary mb-4" />
-              <h3 className="text-xl font-medium">Generating your recipes...</h3>
+              <h3 className="text-xl font-medium">Se generează rețetele tale...</h3>
               <p className="text-muted-foreground mt-2">
-                Finding recipes that match your preferences and local prices
+                Se caută rețete care se potrivesc preferințelor și prețurilor locale
               </p>
             </div>
           ) : recipes.length > 0 ? (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {recipes.map((recipe) => (
-                <RecipeCard 
-                  key={recipe.id} 
-                  recipe={recipe} 
-                  onClick={handleRecipeClick} 
-                />
+                <div key={recipe.id} className="relative">
+                  <RecipeCard 
+                    recipe={recipe} 
+                    onClick={handleRecipeClick} 
+                  />
+                  <Button
+                    variant="secondary"
+                    size="icon"
+                    className="absolute top-2 right-2 bg-white/80 hover:bg-white"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleSaveRecipe(recipe);
+                    }}
+                  >
+                    {isRecipeSaved(recipe) ? (
+                      <Check className="h-4 w-4 text-green-600" />
+                    ) : (
+                      <BookmarkPlus className="h-4 w-4" />
+                    )}
+                  </Button>
+                </div>
               ))}
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center py-20">
               <Utensils className="h-12 w-12 text-muted-foreground mb-4" />
-              <h3 className="text-xl font-medium">No recipes found</h3>
+              <h3 className="text-xl font-medium">Nu s-au găsit rețete</h3>
               <p className="text-muted-foreground mt-2">
-                Try adjusting your preferences to find more recipes
+                Încearcă să ajustezi preferințele pentru a găsi mai multe rețete
               </p>
               <Button variant="default" className="mt-4" onClick={handleReset}>
-                Start Over
+                Începe din nou
               </Button>
             </div>
           )}

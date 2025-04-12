@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X, ChefHat, Lock } from 'lucide-react';
+import { Menu, X, ChefHat, Lock, Book, ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Header = () => {
@@ -16,7 +16,15 @@ const Header = () => {
         </div>
         
         <nav className="hidden md:flex items-center gap-6 text-sm">
-          <Link to="/" className="font-medium transition-colors hover:text-recipe-primary">Home</Link>
+          <Link to="/" className="font-medium transition-colors hover:text-recipe-primary">Acasă</Link>
+          <Link to="/my-recipes" className="font-medium transition-colors hover:text-recipe-primary flex items-center gap-1">
+            <Book className="h-3 w-3" />
+            Rețetele mele
+          </Link>
+          <Link to="/shopping-list" className="font-medium transition-colors hover:text-recipe-primary flex items-center gap-1">
+            <ShoppingCart className="h-3 w-3" />
+            Lista de cumpărături
+          </Link>
           <Link to="/admin" className="font-medium transition-colors hover:text-recipe-primary flex items-center gap-1">
             <Lock className="h-3 w-3" />
             Admin
@@ -25,7 +33,7 @@ const Header = () => {
         
         <div className="flex items-center gap-4">
           <Button variant="default" className="hidden md:flex">
-            <Link to="/">Generate Recipe</Link>
+            <Link to="/">Generează rețetă</Link>
           </Button>
           
           <Button
@@ -42,13 +50,21 @@ const Header = () => {
       {isMenuOpen && (
         <div className="container md:hidden">
           <nav className="flex flex-col py-4 gap-2">
-            <Link to="/" className="py-2 font-medium transition-colors hover:text-recipe-primary">Home</Link>
+            <Link to="/" className="py-2 font-medium transition-colors hover:text-recipe-primary">Acasă</Link>
+            <Link to="/my-recipes" className="py-2 font-medium transition-colors hover:text-recipe-primary flex items-center gap-1">
+              <Book className="h-3 w-3" />
+              Rețetele mele
+            </Link>
+            <Link to="/shopping-list" className="py-2 font-medium transition-colors hover:text-recipe-primary flex items-center gap-1">
+              <ShoppingCart className="h-3 w-3" />
+              Lista de cumpărături
+            </Link>
             <Link to="/admin" className="py-2 font-medium transition-colors hover:text-recipe-primary flex items-center gap-1">
               <Lock className="h-3 w-3" />
               Admin
             </Link>
             <Button variant="default" className="mt-2">
-              <Link to="/">Generate Recipe</Link>
+              <Link to="/">Generează rețetă</Link>
             </Button>
           </nav>
         </div>
