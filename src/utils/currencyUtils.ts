@@ -15,3 +15,15 @@ export const usdToRon = (usdAmount: number): number => {
 export const formatRon = (amount: number): string => {
   return `${amount.toFixed(2)} RON`;
 };
+
+/**
+ * Custom RON icon component to use instead of DollarSign
+ * This creates a RON text symbol that can be used in place of the dollar icon
+ */
+export const RonIcon = ({ className = "h-4 w-4" }: { className?: string }) => {
+  return (
+    <div className={`flex items-center justify-center font-semibold ${className}`}>
+      RON
+    </div>
+  );
+};

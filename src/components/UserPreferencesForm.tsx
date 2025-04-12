@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -23,6 +22,7 @@ import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { X, MapPin, Flame, DollarSign, CheckCircle } from 'lucide-react';
 import { UserPreferences } from '@/types/recipe';
+import { RonIcon } from '@/utils/currencyUtils';
 
 interface UserPreferencesFormProps {
   onSubmit: (preferences: UserPreferences) => void;
@@ -138,10 +138,10 @@ const UserPreferencesForm = ({ onSubmit }: UserPreferencesFormProps) => {
           <div className="space-y-2">
             <div className="flex justify-between">
               <Label htmlFor="budget">Budget per Meal</Label>
-              <span className="text-sm text-muted-foreground">${budget.toFixed(2)}</span>
+              <span className="text-sm text-muted-foreground">{budget.toFixed(2)} RON</span>
             </div>
             <div className="flex items-center gap-4">
-              <DollarSign className="h-5 w-5 text-recipe-price" />
+              <RonIcon className="h-5 w-5 text-recipe-price" />
               <Slider
                 id="budget"
                 min={5}

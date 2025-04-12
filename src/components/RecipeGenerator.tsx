@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Loader2, Utensils, AlertCircle, BookmarkPlus, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -10,7 +9,8 @@ import ApiKeyConfig from './ApiKeyConfig';
 import { Recipe, UserPreferences } from '@/types/recipe';
 import { fetchRecipes } from '@/services/recipeService';
 import { useApiKey } from '@/context/ApiKeyContext';
-import { sampleRecipes } from '@/data/sampleRecipes'; // Keeping as fallback
+import { sampleRecipes } from '@/data/sampleRecipes';
+import { usdToRon, formatRon } from '@/utils/currencyUtils';
 
 const RecipeGenerator = () => {
   const { toast } = useToast();
@@ -41,7 +41,6 @@ const RecipeGenerator = () => {
       let fetchedRecipes: Recipe[];
       
       if (isKeySet) {
-        // Try to fetch recipes from API if key is set
         fetchedRecipes = await fetchRecipes(formData, apiKey);
         setRecipes(fetchedRecipes);
         
@@ -50,7 +49,6 @@ const RecipeGenerator = () => {
           description: `S-au găsit ${fetchedRecipes.length} rețete care se potrivesc preferințelor tale.`,
         });
       } else {
-        // Use sample data if no API key
         console.log("No API key set, using sample data");
         setError("Nicio cheie API configurată. Se folosesc date exemplu în loc.");
         setRecipes(sampleRecipes);
@@ -65,7 +63,6 @@ const RecipeGenerator = () => {
       console.error("Failed to fetch recipes:", err);
       setError("Nu s-au putut prelua rețetele. Se folosesc date exemplu în loc.");
       
-      // Fallback to sample recipes if API fails
       setRecipes(sampleRecipes);
       
       toast({
@@ -139,7 +136,7 @@ const RecipeGenerator = () => {
               {preferences && (
                 <p className="text-muted-foreground">
                   {preferences.location && `Pentru ${preferences.location} • `}
-                  {preferences.calorieTarget} kcal • ${preferences.budget.toFixed(2)} buget
+                  {preferences.calorieTarget} kcal • {formatRon(preferences.budget)} buget
                 </p>
               )}
               {error && (

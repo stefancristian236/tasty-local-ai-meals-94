@@ -1,8 +1,8 @@
 
-import { Clock, DollarSign, Flame, Users } from 'lucide-react';
+import { Clock, Flame, Users } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Recipe } from '@/types/recipe';
-import { usdToRon, formatRon } from '@/utils/currencyUtils';
+import { usdToRon, formatRon, RonIcon } from '@/utils/currencyUtils';
 import {
   Card,
   CardContent,
@@ -58,7 +58,7 @@ const RecipeCard = ({ recipe, onClick }: RecipeCardProps) => {
             <span>{nutritionInfo.calories} kcal</span>
           </div>
           <div className="flex items-center gap-1 text-recipe-price">
-            <DollarSign className="h-4 w-4" />
+            <RonIcon className="h-4 w-4" />
             <span>{formatRon(usdToRon(pricePerServing))}/porție</span>
           </div>
         </div>

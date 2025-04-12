@@ -1,10 +1,9 @@
-
-import { Clock, DollarSign, ChefHat, Flame, Users, X } from 'lucide-react';
+import { Clock, ChefHat, Flame, Users, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Recipe } from '@/types/recipe';
-import { usdToRon, formatRon } from '@/utils/currencyUtils';
+import { usdToRon, formatRon, RonIcon } from '@/utils/currencyUtils';
 import {
   Dialog,
   DialogContent,
@@ -88,7 +87,7 @@ const RecipeDetail = ({ recipe, isOpen, onClose }: RecipeDetailProps) => {
               <span className="text-xs text-muted-foreground">Calories/Serving</span>
             </div>
             <div className="flex flex-col items-center p-3 bg-muted rounded-md">
-              <DollarSign className="h-5 w-5 mb-1 text-recipe-price" />
+              <RonIcon className="h-5 w-5 mb-1 text-recipe-price" />
               <span className="text-sm font-medium">{formatRon(usdToRon(pricePerServing))}</span>
               <span className="text-xs text-muted-foreground">Cost/Serving</span>
             </div>

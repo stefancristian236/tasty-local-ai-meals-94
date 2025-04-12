@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import { Link } from 'react-router-dom';
+import { RonIcon } from '@/utils/currencyUtils';
 
 interface ShoppingItem {
   id: string;
