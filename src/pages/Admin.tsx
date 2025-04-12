@@ -20,7 +20,7 @@ const Admin = () => {
             <CardHeader>
               <div className="flex items-center gap-2">
                 <ChefHat className="h-5 w-5 text-recipe-primary" />
-                <CardTitle>Configurare API NutriSaver</CardTitle>
+                <CardTitle>Configurare API Cookalorie</CardTitle>
               </div>
             </CardHeader>
             <CardContent>
@@ -35,7 +35,7 @@ const Admin = () => {
         </main>
         <footer className="border-t py-6 mt-auto">
           <div className="container text-center text-sm text-muted-foreground">
-            <p>© 2025 NutriSaver. Toate drepturile rezervate.</p>
+            <p>© 2025 Cookalorie. Toate drepturile rezervate.</p>
           </div>
         </footer>
       </div>

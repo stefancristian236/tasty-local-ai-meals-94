@@ -1,9 +1,8 @@
-
 import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import { ApiKeyProvider } from '@/context/ApiKeyContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ShoppingCart, Info, Check, Trash2, PlusCircle } from 'lucide-react';
+import { ShoppingCart, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
@@ -179,7 +178,7 @@ const ShoppingList = () => {
         
         <footer className="border-t py-6">
           <div className="container text-center text-sm text-muted-foreground">
-            <p>© 2025 NutriSaver. Toate drepturile rezervate.</p>
+            <p>© 2025 Cookalorie. Toate drepturile rezervate.</p>
           </div>
         </footer>
       </div>

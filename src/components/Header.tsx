@@ -12,7 +12,7 @@ const Header = () => {
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-2">
           <ChefHat className="h-6 w-6 text-recipe-primary" />
-          <Link to="/" className="text-xl font-display font-semibold">NutriSaver</Link>
+          <Link to="/" className="text-xl font-display font-semibold">Cookalorie</Link>
         </div>
         
         <nav className="hidden md:flex items-center gap-6 text-sm">
