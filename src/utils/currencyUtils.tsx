@@ -1,4 +1,6 @@
 
+import React from 'react';
+
 // Exchange rate as of April 2025 - 1 USD = 4.32 RON
 export const USD_TO_RON_RATE = 4.32;
 
