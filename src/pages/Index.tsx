@@ -1,12 +1,19 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import Header from '@/components/Header';
+import RecipeGenerator from '@/components/RecipeGenerator';
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen flex flex-col bg-recipe-background">
+      <Header />
+      <main className="flex-1">
+        <RecipeGenerator />
+      </main>
+      <footer className="border-t py-6">
+        <div className="container text-center text-sm text-muted-foreground">
+          <p>© 2025 NutriSaver. All rights reserved.</p>
+        </div>
+      </footer>
     </div>
   );
 };
