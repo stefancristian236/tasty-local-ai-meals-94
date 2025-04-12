@@ -1,5 +1,6 @@
 
 import { Recipe, UserPreferences, Ingredient, NutritionInfo } from "@/types/recipe";
+import { usdToRon } from "@/utils/currencyUtils";
 
 /**
  * Fetches recipes based on user preferences from Spoonacular API

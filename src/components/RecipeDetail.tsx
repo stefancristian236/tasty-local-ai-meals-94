@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Recipe } from '@/types/recipe';
+import { usdToRon, formatRon } from '@/utils/currencyUtils';
 import {
   Dialog,
   DialogContent,
@@ -88,7 +89,7 @@ const RecipeDetail = ({ recipe, isOpen, onClose }: RecipeDetailProps) => {
             </div>
             <div className="flex flex-col items-center p-3 bg-muted rounded-md">
               <DollarSign className="h-5 w-5 mb-1 text-recipe-price" />
-              <span className="text-sm font-medium">${pricePerServing.toFixed(2)}</span>
+              <span className="text-sm font-medium">{formatRon(usdToRon(pricePerServing))}</span>
               <span className="text-xs text-muted-foreground">Cost/Serving</span>
             </div>
           </div>
@@ -104,13 +105,13 @@ const RecipeDetail = ({ recipe, isOpen, onClose }: RecipeDetailProps) => {
                     <span>
                       {ingredient.amount} {ingredient.unit} {ingredient.name}
                     </span>
-                    <span className="text-recipe-price">${ingredient.price.toFixed(2)}</span>
+                    <span className="text-recipe-price">{formatRon(usdToRon(ingredient.price))}</span>
                   </li>
                 ))}
               </ul>
               <div className="mt-3 pt-3 border-t flex justify-between font-medium">
                 <span>Total Cost:</span>
-                <span className="text-recipe-price">${totalPrice.toFixed(2)}</span>
+                <span className="text-recipe-price">{formatRon(usdToRon(totalPrice))}</span>
               </div>
             </div>
 
