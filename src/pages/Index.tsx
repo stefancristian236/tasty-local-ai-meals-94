@@ -13,7 +13,7 @@ const Index = () => {
         </main>
         <footer className="border-t py-6">
           <div className="container text-center text-sm text-muted-foreground">
-            <p>© 2025 Cookalorie. Toate drepturile rezervate.</p>
+            <p>© 2025 NutriSaver. Toate drepturile rezervate.</p>
           </div>
         </footer>
       </div>
