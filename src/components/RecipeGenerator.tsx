@@ -117,10 +117,10 @@ const RecipeGenerator = () => {
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-8">
             <h1 className="text-3xl md:text-4xl font-display font-bold mb-3">
-              Generator de rețete inteligent
+              Smart recipe generator
             </h1>
             <p className="text-muted-foreground text-lg">
-              Obțineți rețete personalizate, la un preț accesibil, bazate pe locația dvs., nevoile nutriționale și prețurile locale.
+              Get personalized recipes, at an affordable price, based on your location, nutritional needs, and local prices.
             </p>
           </div>
           
@@ -132,11 +132,11 @@ const RecipeGenerator = () => {
         <div className="space-y-8">
           <div className="flex flex-wrap justify-between items-center gap-4">
             <div>
-              <h2 className="text-2xl font-display font-semibold">Rețetele tale personalizate</h2>
+              <h2 className="text-2xl font-display font-semibold">Personalised recipies</h2>
               {preferences && (
                 <p className="text-muted-foreground">
                   {preferences.location && `Pentru ${preferences.location} • `}
-                  {preferences.calorieTarget} kcal • {formatRon(preferences.budget)} buget
+                  {preferences.calorieTarget} kcal • {formatRon(preferences.budget)} budget
                 </p>
               )}
               {error && (
@@ -145,15 +145,15 @@ const RecipeGenerator = () => {
                 </p>
               )}
             </div>
-            <Button variant="outline" onClick={handleReset}>Schimbă preferințele</Button>
+            <Button variant="outline" onClick={handleReset}>Change preferences</Button>
           </div>
 
           {isGenerating ? (
             <div className="flex flex-col items-center justify-center py-20">
               <Loader2 className="h-12 w-12 animate-spin text-recipe-primary mb-4" />
-              <h3 className="text-xl font-medium">Se generează rețetele tale...</h3>
+              <h3 className="text-xl font-medium">Cooking...</h3>
               <p className="text-muted-foreground mt-2">
-                Se caută rețete care se potrivesc preferințelor și prețurilor locale
+                Searching for recipes that match preferences and local prices.
               </p>
             </div>
           ) : recipes.length > 0 ? (
@@ -185,12 +185,12 @@ const RecipeGenerator = () => {
           ) : (
             <div className="flex flex-col items-center justify-center py-20">
               <Utensils className="h-12 w-12 text-muted-foreground mb-4" />
-              <h3 className="text-xl font-medium">Nu s-au găsit rețete</h3>
+              <h3 className="text-xl font-medium">No recipies found</h3>
               <p className="text-muted-foreground mt-2">
-                Încearcă să ajustezi preferințele pentru a găsi mai multe rețete
+                Try adjusting your preferences to find more recipes.
               </p>
               <Button variant="default" className="mt-4" onClick={handleReset}>
-                Începe din nou
+                Try again
               </Button>
             </div>
           )}

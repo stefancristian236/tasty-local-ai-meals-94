@@ -16,14 +16,14 @@ const Header = () => {
         </div>
         
         <nav className="hidden md:flex items-center gap-6 text-sm">
-          <Link to="/" className="font-medium transition-colors hover:text-recipe-primary">Acasă</Link>
+          <Link to="/" className="font-medium transition-colors hover:text-recipe-primary">Home</Link>
           <Link to="/my-recipes" className="font-medium transition-colors hover:text-recipe-primary flex items-center gap-1">
             <Book className="h-3 w-3" />
-            Rețetele mele
+            My Recipies
           </Link>
           <Link to="/shopping-list" className="font-medium transition-colors hover:text-recipe-primary flex items-center gap-1">
             <ShoppingCart className="h-3 w-3" />
-            Lista de cumpărături
+            Grocceries
           </Link>
           <Link to="/admin" className="font-medium transition-colors hover:text-recipe-primary flex items-center gap-1">
             <Lock className="h-3 w-3" />
@@ -33,7 +33,7 @@ const Header = () => {
         
         <div className="flex items-center gap-4">
           <Button variant="default" className="hidden md:flex">
-            <Link to="/">Generează rețetă</Link>
+            <Link to="/">Generate Recipies</Link>
           </Button>
           
           <Button
@@ -53,18 +53,18 @@ const Header = () => {
             <Link to="/" className="py-2 font-medium transition-colors hover:text-recipe-primary">Acasă</Link>
             <Link to="/my-recipes" className="py-2 font-medium transition-colors hover:text-recipe-primary flex items-center gap-1">
               <Book className="h-3 w-3" />
-              Rețetele mele
+              My Recipies
             </Link>
             <Link to="/shopping-list" className="py-2 font-medium transition-colors hover:text-recipe-primary flex items-center gap-1">
               <ShoppingCart className="h-3 w-3" />
-              Lista de cumpărături
+              Grocceries
             </Link>
             <Link to="/admin" className="py-2 font-medium transition-colors hover:text-recipe-primary flex items-center gap-1">
               <Lock className="h-3 w-3" />
               Admin
             </Link>
             <Button variant="default" className="mt-2">
-              <Link to="/">Generează rețetă</Link>
+              <Link to="/">Generate Recipes</Link>
             </Button>
           </nav>
         </div>

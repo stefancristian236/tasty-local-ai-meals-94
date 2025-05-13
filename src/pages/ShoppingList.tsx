@@ -33,21 +33,21 @@ const ShoppingList = () => {
 
   const addItem = () => {
     if (newItemName.trim() === '') return;
-    
+
     const newItem: ShoppingItem = {
       id: Date.now().toString(),
       name: newItemName,
       quantity: newItemQuantity,
       checked: false
     };
-    
+
     setItems([...items, newItem]);
     setNewItemName('');
     setNewItemQuantity('');
-    
+
     toast({
-      title: "Articol adăugat",
-      description: `${newItemName} a fost adăugat la lista de cumpărături.`,
+      title: "Item added",
+      description: `${newItemName} has been added to the shopping list.`,
     });
   };
 
@@ -59,19 +59,19 @@ const ShoppingList = () => {
 
   const deleteItem = (id: string) => {
     setItems(items.filter(item => item.id !== id));
-    
+
     toast({
-      title: "Articol șters",
-      description: "Articolul a fost eliminat din lista de cumpărături.",
+      title: "Item deleted",
+      description: "The item has been removed from the shopping list.",
     });
   };
 
   const clearCheckedItems = () => {
     setItems(items.filter(item => !item.checked));
-    
+
     toast({
-      title: "Lista curățată",
-      description: "Articolele bifate au fost eliminate.",
+      title: "List cleared",
+      description: "Checked items have been removed.",
     });
   };
 
@@ -82,32 +82,32 @@ const ShoppingList = () => {
         <main className="flex-1 container py-12 max-w-4xl">
           <div className="flex items-center gap-2 mb-6">
             <ShoppingCart className="h-6 w-6 text-recipe-primary" />
-            <h1 className="text-3xl font-display font-bold">Lista de cumpărături</h1>
+            <h1 className="text-3xl font-display font-bold">Shooping cart</h1>
           </div>
           
           <Card className="mb-6">
             <CardHeader>
-              <CardTitle>Adaugă un articol nou</CardTitle>
+              <CardTitle>Add</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex flex-col md:flex-row gap-4">
                 <div className="flex-1">
                   <Input
-                    placeholder="Nume articol"
+                    placeholder="Item name"
                     value={newItemName}
                     onChange={(e) => setNewItemName(e.target.value)}
                   />
                 </div>
                 <div className="w-full md:w-1/4">
                   <Input
-                    placeholder="Cantitate"
+                    placeholder="Quantity"
                     value={newItemQuantity}
                     onChange={(e) => setNewItemQuantity(e.target.value)}
                   />
                 </div>
                 <Button onClick={addItem}>
                   <PlusCircle className="mr-2 h-4 w-4" />
-                  Adaugă
+                  Add
                 </Button>
               </div>
             </CardContent>
@@ -116,11 +116,11 @@ const ShoppingList = () => {
           {items.length > 0 ? (
             <Card>
               <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle>Articole ({items.length})</CardTitle>
+                <CardTitle>Items ({items.length})</CardTitle>
                 {items.some(item => item.checked) && (
                   <Button variant="outline" size="sm" onClick={clearCheckedItems}>
                     <Trash2 className="mr-2 h-4 w-4" />
-                    Șterge bifate
+                    Delete
                   </Button>
                 )}
               </CardHeader>
@@ -162,15 +162,15 @@ const ShoppingList = () => {
               <CardHeader>
                 <div className="flex items-center gap-2">
                   <Info className="h-5 w-5 text-recipe-primary" />
-                  <CardTitle>Lista ta este goală</CardTitle>
+                  <CardTitle>Empty list</CardTitle>
                 </div>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground mb-6">
-                  Nu ai niciun articol în lista de cumpărături. Adaugă articole sau generează rețete pentru a construi lista ta.
+                  Empty.
                 </p>
                 <Button variant="default">
-                  <Link to="/">Generează rețete</Link>
+                  <Link to="/">Generate recipes</Link>
                 </Button>
               </CardContent>
             </Card>
@@ -179,7 +179,7 @@ const ShoppingList = () => {
         
         <footer className="border-t py-6">
           <div className="container text-center text-sm text-muted-foreground">
-            <p>© 2025 NutriSaver. Toate drepturile rezervate.</p>
+            <p>© 2025 NutriSaver. All rights reserved.</p>
           </div>
         </footer>
       </div>

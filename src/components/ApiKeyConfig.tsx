@@ -38,34 +38,7 @@ const ApiKeyConfig = ({ adminView = false }: ApiKeyConfigProps) => {
 
   return (
     <div className="mb-6">
-      {!adminView ? (
-        <Alert className="bg-amber-50 border-amber-200">
-          <Info className="h-4 w-4 text-amber-500" />
-          <AlertTitle className="text-amber-700">API Key Required</AlertTitle>
-          <AlertDescription className="text-amber-600">
-            This app uses the Spoonacular API to provide real recipe data. Please contact the administrator
-            to set up an API key for full functionality.
-          </AlertDescription>
-        </Alert>
-      ) : (
-        isKeySet ? (
-          <Alert className="bg-green-50 border-green-200">
-            <CheckCircle className="h-4 w-4 text-green-500" />
-            <AlertTitle className="text-green-700">API Key Configured</AlertTitle>
-            <AlertDescription className="text-green-600">
-              Your Spoonacular API key is configured. All users can now access recipe data.
-            </AlertDescription>
-          </Alert>
-        ) : (
-          <Alert className="bg-amber-50 border-amber-200">
-            <Info className="h-4 w-4 text-amber-500" />
-            <AlertTitle className="text-amber-700">API Key Required</AlertTitle>
-            <AlertDescription className="text-amber-600">
-              No API key is configured. Users won't be able to fetch real recipe data until you set one up.
-            </AlertDescription>
-          </Alert>
-        )
-      )}
+     
       
       {adminView && (
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
@@ -130,12 +103,9 @@ const ApiKeyConfig = ({ adminView = false }: ApiKeyConfigProps) => {
         </Dialog>
       )}
       
-      {isKeySet && !adminView && (
-        <div className="flex items-center gap-2 mt-3 text-sm text-muted-foreground">
-          <CheckCircle className="h-4 w-4 text-green-500" />
-          <span>API key is configured by admin</span>
-        </div>
-      )}
+      {isKeySet && !adminView 
+      
+      }
     </div>
   );
 };

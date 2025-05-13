@@ -47,7 +47,7 @@ const MyRecipes = () => {
         <main className="flex-1 container py-12 max-w-6xl">
           <div className="flex items-center gap-2 mb-6">
             <Book className="h-6 w-6 text-recipe-primary" />
-            <h1 className="text-3xl font-display font-bold">Rețetele mele</h1>
+            <h1 className="text-3xl font-display font-bold">My recipies</h1>
           </div>
           
           {savedRecipes.length > 0 ? (
@@ -68,7 +68,7 @@ const MyRecipes = () => {
                         handleDeleteRecipe(recipe.id);
                       }}
                     >
-                      Șterge
+                      Delete
                     </Button>
                   </div>
                 ))}
@@ -79,15 +79,15 @@ const MyRecipes = () => {
               <CardHeader>
                 <div className="flex items-center gap-2">
                   <Info className="h-5 w-5 text-recipe-primary" />
-                  <CardTitle>Nicio rețetă salvată</CardTitle>
+                  <CardTitle>No recipies saved</CardTitle>
                 </div>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground mb-6">
-                  Nu ai nicio rețetă salvată încă. Generează rețete și salvează-le pentru a le vedea aici.
+                  No recipies saved.
                 </p>
                 <Button variant="default">
-                  <Link to="/">Generează rețete</Link>
+                  <Link to="/">Generate recipies</Link>
                 </Button>
               </CardContent>
             </Card>
@@ -102,7 +102,7 @@ const MyRecipes = () => {
         
         <footer className="border-t py-6">
           <div className="container text-center text-sm text-muted-foreground">
-            <p>© 2025 NutriSaver. Toate drepturile rezervate.</p>
+            <p>© 2025 NutriSaver. All rights reserved.</p>
           </div>
         </footer>
       </div>

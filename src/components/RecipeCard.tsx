@@ -51,7 +51,7 @@ const RecipeCard = ({ recipe, onClick }: RecipeCardProps) => {
           </div>
           <div className="flex items-center gap-1 text-muted-foreground">
             <Users className="h-4 w-4" />
-            <span>Porții {servings}</span>
+            <span>Portions {servings}</span>
           </div>
           <div className="flex items-center gap-1 text-recipe-calories">
             <Flame className="h-4 w-4" />
@@ -65,7 +65,7 @@ const RecipeCard = ({ recipe, onClick }: RecipeCardProps) => {
       </CardContent>
       <CardFooter>
         <div className="text-sm text-muted-foreground">
-          Click pentru a vedea rețeta completă
+          Click to see the full recipe
         </div>
       </CardFooter>
     </Card>
